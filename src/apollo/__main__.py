@@ -1,37 +1,41 @@
 import asyncio
 
 import click
+import structlog  # type: ignore
 import uvloop  # type: ignore
-from aiohttp_micro.management.server import server  # type: ignore
+from aiohttp_micro.management.server import server
+from config import (
+    ConsulConfig,
+    EnvValueProvider,
+    load,
+)
+
 
 from apollo.app import AppConfig, init
+
+
+structlog.configure(
+    processors=[
+        structlog.stdlib.add_log_level,
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.processors.JSONRenderer(),
+    ]
+)
 
 
 @click.group()
 @click.option("--debug", default=False, is_flag=True)
 @click.option("--conf-dir", default=None)
 @click.pass_context
-def cli(ctx, conf_dir: str = None, debug):
+def cli(ctx, conf_dir: str = None, debug: bool = False) -> None:
     uvloop.install()
     loop = asyncio.get_event_loop()
 
     consul_config = ConsulConfig()
     load(consul_config, providers=[EnvValueProvider()])
 
-    config = AppConfig(
-        defaults={
-            "consul": consul_config,
-            "debug": debug,
-        }
-    )
-
-    if conf_dir:
-        conf_path = Path(conf_dir)
-    else:
-        conf_path = Path.cwd()
-
-    load_from_file(config, path=conf_path / "config.json")
-    load(config, providers=[FileValueProvider(conf_path), EnvValueProvider()])
+    config = AppConfig(defaults={"consul": consul_config, "debug": debug})
+    load(config, providers=[EnvValueProvider()])
 
     app = loop.run_until_complete(init("apollo", config))
 

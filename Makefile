@@ -31,8 +31,11 @@ install: clean
 	poetry install
 
 lint:
-	poetry run flake8 apollo tests
-	poetry run mypy apollo tests
+	poetry run flake8 src/apollo tests
+	poetry run mypy src/apollo tests
+
+run:
+	poetry run python3 -m apollo --conf-dir=./conf --debug server run -t develop -t 'traefik.enable=true' -t 'traefik.http.routers.apollo.rule=Host(`apollo.dev.clayman.pro`)' -t 'traefik.http.routers.apollo.entrypoints=web' -t 'traefik.http.routers.apollo.service=apollo' -t 'traefik.http.routers.apollo.middlewares=apollo-redirect@consulcatalog' -t 'traefik.http.routers.apollo-secure.rule=Host(`apollo.dev.clayman.pro`)' -t 'traefik.http.routers.apollo-secure.entrypoints=websecure' -t 'traefik.http.routers.apollo-secure.service=apollo' -t 'traefik.http.routers.apollo-secure.tls=true' -t 'traefik.http.middlewares.apollo-redirect.redirectscheme.scheme=https' -t 'traefik.http.middlewares.apollo-redirect.redirectscheme.permanent=true'
 
 test:
 	tox
