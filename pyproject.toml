@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "apollo"
-version = "1.0.0"
+version = "1.0.1"
 description = "General purpose telegram bot"
 authors = ["Kirill Sumorokov <sumorokov.k@gmail.com>"]
 packages = [
