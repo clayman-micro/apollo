@@ -1,7 +1,7 @@
-import config
+import config  # type: ignore
 from aiohttp import web
 from aiohttp_metrics import setup as setup_metrics  # type: ignore
-from aiohttp_micro import (
+from aiohttp_micro import (  # type: ignore
     AppConfig as BaseConfig,
     setup as setup_micro,
 )

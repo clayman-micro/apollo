@@ -3,8 +3,8 @@ import asyncio
 import click
 import structlog  # type: ignore
 import uvloop  # type: ignore
-from aiohttp_micro.management.server import server
-from config import ConsulConfig, EnvValueProvider, load
+from aiohttp_micro.management.server import server  # type: ignore
+from config import ConsulConfig, EnvValueProvider, load  # type: ignore
 
 from apollo.app import AppConfig, init
 

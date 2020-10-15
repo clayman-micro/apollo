@@ -1,6 +1,6 @@
 from aiohttp import web
-from aiohttp_micro.handlers import get_payload
-from aiohttp_micro.schemas import EnumField
+from aiohttp_micro.handlers import get_payload  # type: ignore
+from aiohttp_micro.schemas import EnumField  # type: ignore
 from marshmallow import EXCLUDE, fields, Schema
 
 from apollo.entities.alerts import Alert, AlertStatus
