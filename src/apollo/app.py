@@ -19,7 +19,7 @@ class AppConfig(BaseConfig):
     telegram = config.NestedField[TelegramConfig](TelegramConfig)
 
 
-async def init(app_name: str, cfg: AppConfig) -> web.Application:
+def init(app_name: str, cfg: AppConfig) -> web.Application:
     app = web.Application()
 
     setup_micro(app, app_name, cfg)

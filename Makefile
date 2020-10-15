@@ -1,5 +1,5 @@
 .PHONY: build clean clean-test clean-pyc clean-build proto
-NAME	:= clayman083/apollo
+NAME	:= ghcr.io/clayman-micro/apollo
 VERSION ?= latest
 
 

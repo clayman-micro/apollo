@@ -4,12 +4,7 @@ import click
 import structlog  # type: ignore
 import uvloop  # type: ignore
 from aiohttp_micro.management.server import server
-from config import (
-    ConsulConfig,
-    EnvValueProvider,
-    load,
-)
-
+from config import ConsulConfig, EnvValueProvider, load
 
 from apollo.app import AppConfig, init
 
@@ -25,9 +20,8 @@ structlog.configure(
 
 @click.group()
 @click.option("--debug", default=False, is_flag=True)
-@click.option("--conf-dir", default=None)
 @click.pass_context
-def cli(ctx, conf_dir: str = None, debug: bool = False) -> None:
+def cli(ctx, debug: bool = False) -> None:
     uvloop.install()
     loop = asyncio.get_event_loop()
 
@@ -37,7 +31,7 @@ def cli(ctx, conf_dir: str = None, debug: bool = False) -> None:
     config = AppConfig(defaults={"consul": consul_config, "debug": debug})
     load(config, providers=[EnvValueProvider()])
 
-    app = loop.run_until_complete(init("apollo", config))
+    app = init("apollo", config)
 
     ctx.obj["app"] = app
     ctx.obj["config"] = config
