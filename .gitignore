@@ -49,6 +49,7 @@ nosetests.xml
 .idea
 .containers
 .mypy_cache
+.python-version
 .venv
 .vscode/.ropeproject
 .vscode/tags
