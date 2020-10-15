@@ -11,6 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
       - uses: actions/setup-python@v1
         with:
           python-version: '3.9'
@@ -35,6 +39,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Publish to Docker Repository
         uses: elgohr/Publish-Docker-Github-Action@master
